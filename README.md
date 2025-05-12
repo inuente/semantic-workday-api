@@ -24,9 +24,12 @@ Query parameters:
 
 ```json
 {
-  "region": "California",
-  "datetime": "2025-04-20T12:00",
-  "document_type": "VAT_Report"
+  "address": "London",
+  "domain": "school",
+  "startdate": "2025-05-09T00:00",
+  "enddate": "2025-05-11T23:59",
+  "language": "en",
+  "type": "working",
 }
 ```
 
@@ -37,14 +40,38 @@ Returns a JSON array of day-objects:
 
 ```json
 [
-  {
-    "date": "2025-05-01T00:00",
-    "official": "nonworkday",
-    "actual": "nonworkday",
-    "note": "International Workers' Day, public holiday in Germany.",
-    "tags": ['holiday'],
-    "confidence": 1.0
-  }
+    {
+        "actual": "workday",
+        "confidence": 0.95,
+        "date": "2025-05-09T00:00",
+        "note": "Regular school day",
+        "official": "workday",
+        "tags": [
+            "education"
+        ]
+    },
+    {
+        "actual": "non-workday",
+        "confidence": 0.99,
+        "date": "2025-05-10T00:00",
+        "note": "Weekend, schools are typically closed",
+        "official": "non-workday",
+        "tags": [
+            "weekend",
+            "education"
+        ]
+    },
+    {
+        "actual": "non-workday",
+        "confidence": 0.99,
+        "date": "2025-05-11T00:00",
+        "note": "Weekend, schools are typically closed",
+        "official": "non-workday",
+        "tags": [
+            "weekend",
+            "education"
+        ]
+    }
 ]
 ```
 
