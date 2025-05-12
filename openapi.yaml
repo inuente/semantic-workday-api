@@ -1,0 +1,85 @@
+openapi: 3.1.0
+info:
+  title: Working Days AI API
+  version: "1.0.0"
+  description: >
+    Returns working or non-working day periods with semantic interpretation
+    based on address, domain context, and date range.
+
+servers:
+  - url: https://your-api.onrender.com
+
+paths:
+  /working-schedule:
+    get:
+      summary: Get working or non-working days
+      parameters:
+        - name: address
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Full address (e.g. "Tel-Aviv", "New York")
+        - name: domain
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Context domain, e.g. "school", "office"
+        - name: startdate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: enddate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+            example: "en"
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [working, non-working]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date-time
+                    official:
+                      type: string
+                      enum: [workday, nonworkday, holiday, weekend]
+                    actual:
+                      type: string
+                      enum: [workday, nonworkday]
+                    note:
+                      type: string
+                    tags:
+                      type: array
+                      items:
+                        type: string
+                    confidence:
+                      type: number
+                      format: float
+        '400':
+          description: Invalid input
+        '403':
+          description: Forbidden (invalid Zyla proxy)
+
